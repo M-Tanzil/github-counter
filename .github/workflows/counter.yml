@@ -26,8 +26,8 @@ jobs:
 
       - name: Commit and push
         run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git config user.name "M-Tanzil"
+          git config user.email "tanzilrazachas@gmail.com"
 
           git add counter.txt
           git commit -m "Update counter to $(cat counter.txt)"
