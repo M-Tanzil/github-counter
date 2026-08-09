@@ -2,7 +2,7 @@ name: Increment Counter
 
 on:
   schedule:
-    - cron: '0 */10 * * *'
+    - cron: '0 */7 * * *'
   workflow_dispatch:
 
 permissions:
@@ -13,7 +13,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Increment counter
         run: |
@@ -21,16 +24,11 @@ jobs:
           count=$((count + 1))
           echo "$count" > counter.txt
 
-      - name: Commit changes
+      - name: Commit and push
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
           git add counter.txt
-
-          if git diff --cached --quiet; then
-            echo "No changes"
-          else
-            git commit -m "Counter updated to $(cat counter.txt)"
-            git push
-          fi
+          git commit -m "Update counter to $(cat counter.txt)"
+          git push origin HEAD:main
